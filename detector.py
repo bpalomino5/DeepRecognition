@@ -1,5 +1,6 @@
 import face_recognition
 import cv2
+import imutils
 
 # Performance tweaks
 #   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
@@ -17,16 +18,21 @@ bryan_face_encoding = face_recognition.face_encodings(bryan_image)[0]
 cj_image = face_recognition.load_image_file("faces/cj.jpg")
 cj_face_encoding = face_recognition.face_encodings(cj_image)[0]
 
+elaine_image = face_recognition.load_image_file("faces/elaine.jpg")
+elaine_face_encoding = face_recognition.face_encodings(elaine_image)[0]
+
 # Create arrays of known face encodings and their names
 known_face_encodings = [
     brandon_face_encoding,
     bryan_face_encoding,
-    cj_face_encoding
+    cj_face_encoding,
+    elaine_face_encoding
 ]
 known_face_names = [
     "Brandon",
     "Bryan",
-    "CJ"
+    "CJ",
+    "Elaine"
 ]
 
 # Initialize some variables
@@ -38,6 +44,7 @@ process_this_frame = True
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
+    frame = imutils.resize(frame, width=1000)
 
     # Resize frame of video to 1/4 size for faster face recognition processing
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
